@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import './App.css';
 
 export default function App() {
-  const [selectedMovie, setSelectedMovie] = useState(null);
+  /* const [selectedMovie, setSelectedMovie] = useState(null); */
 
   /* const handleMovieClick = (movie) => {
     setSelectedMovie(movie);
@@ -16,12 +16,12 @@ export default function App() {
 
       {/* <MovieList onMovieClick={handleMovieClick} /> */}
 
-      {selectedMovie && (
+      /* {selectedMovie && (
         <>
           <h1>Movie Details</h1>
           {/* <MovieDetails movie={selectedMovie} /> */}
         </>
-      )}
+      )} */
     </div>
   );
 }
