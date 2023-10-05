@@ -24,11 +24,11 @@ module.exports = {
       'prettier/prettier': [
         'error',
         {
+          endOfLine: 'off',
           singleQuote: true,
           jsxSingleQuote: false,
           printWidth: 120,
           parser: 'babel-ts',
-          'endOfLine': 'auto'
         },
       ],
       // Customize your rules here
