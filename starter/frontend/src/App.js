@@ -14,12 +14,12 @@ export default function App() {
     <div className="container">
       <h1>Movie List</h1>
 
-      /* <MovieList onMovieClick={handleMovieClick} /> */
+      {/* <MovieList onMovieClick={handleMovieClick} /> */}
 
       {selectedMovie && (
         <>
           <h1>Movie Details</h1>
-          /* <MovieDetails movie={selectedMovie} /> */
+          {/* <MovieDetails movie={selectedMovie} /> */}
         </>
       )}
     </div>
