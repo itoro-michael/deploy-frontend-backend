@@ -24,7 +24,6 @@ module.exports = {
       'prettier/prettier': [
         'error',
         {
-          endOfLine: 'auto',
           singleQuote: true,
           jsxSingleQuote: false,
           printWidth: 120,
