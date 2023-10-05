@@ -16,12 +16,12 @@ export default function App() {
 
       {/* <MovieList onMovieClick={handleMovieClick} /> */}
 
-      /* {selectedMovie && (
+        {/* {selectedMovie && (
         <>
           <h1>Movie Details</h1>
-          {/* <MovieDetails movie={selectedMovie} /> */}
+          <MovieDetails movie={selectedMovie} /> 
         </>
-      )} */
+        )} */}
     </div>
   );
 }
