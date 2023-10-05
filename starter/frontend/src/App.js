@@ -1,7 +1,7 @@
 /* import React, { useState } from 'react'; */
 /* import MovieList from './components/MovieList'; */
 /* import MovieDetails from './components/MovieDetails'; */
-import React;
+import React from 'react';
 import './App.css';
 
 export default function App() {
