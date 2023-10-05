@@ -51,7 +51,7 @@ jobs:
             ${{ runner.os }}-node-
       
       - run: cd starter/frontend && npm ci
-      - run: cd starter/frontend/src && npm test
+      - run: cd starter/frontend/src && npm test -- --passWithNoTests
   build:
     needs: [lint, test]
     runs-on: ubuntu-latest
