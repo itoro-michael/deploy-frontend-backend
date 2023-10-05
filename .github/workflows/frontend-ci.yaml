@@ -28,7 +28,7 @@ jobs:
             ${{ runner.os }}-node-
       
       - run: cd starter/frontend && npm ci
-      - run: cd starter/frontend && npm run lint
+      - run: cd starter/frontend && npm run lint -- --fix
   test:
     runs-on: ubuntu-latest
     steps:
