@@ -6,9 +6,9 @@ import './App.css';
 export default function App() {
   const [selectedMovie, setSelectedMovie] = useState(null);
 
-  const handleMovieClick = (movie) => {
+  /* const handleMovieClick = (movie) => {
     setSelectedMovie(movie);
-  };
+  }; */
 
   return (
     <div className="container">
