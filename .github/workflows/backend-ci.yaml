@@ -9,19 +9,18 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      steps:
-        - name: Check out source repository
-          uses: actions/checkout@v3
-        - name: Set up Python environment
-          uses: actions/setup-python@v4
-          with:
-            python-version: "3.8"
-        - name: flake8 Lint
-          uses: py-actions/flake8@v2
-          with:
-            ignore: "F401"
-            max-line-length: "100"
-            path: "starter/backend"
+      - name: Check out source repository
+        uses: actions/checkout@v3
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - name: flake8 Lint
+        uses: py-actions/flake8@v2
+        with:
+          ignore: "F401"
+          max-line-length: "100"
+          path: "starter/backend"
 
   test:
     runs-on: ubuntu-latest
