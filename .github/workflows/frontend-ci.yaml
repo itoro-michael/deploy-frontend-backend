@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     branches: [main]
+    types: [closed]
     
 jobs:
   lint:
@@ -76,5 +77,5 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: starter/frontend
-          push: true
+          push: false
           tags: itoroikon/frontend:latest

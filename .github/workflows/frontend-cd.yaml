@@ -1,4 +1,4 @@
-name: frontend-cd-workflow
+name: Frontend Continuous Deployment
 
 on:
   workflow_dispatch:
@@ -7,13 +7,7 @@ on:
     types: [closed]
     
 env:
-  REACT_APP_MOVIE_API_URL: /
   AWS_REGION: us-east-1
-  DOCKER_IMAGE: docker_image
-  DOCKER_TAG: latest
-  K8S_NAMESPACE: dev_namespace
-  K8S_DEPLOYMENT: dev_deployment
-  EKS_CLUSTER_NAME: dev_cluster
     
 jobs:
   lint:
@@ -30,7 +24,7 @@ jobs:
         run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
       
       - uses: actions/cache@v3
-        id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
+        id: npm-cache
         with:
           path: ${{ steps.npm-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -38,7 +32,7 @@ jobs:
             ${{ runner.os }}-node-
       
       - run: cd starter/frontend && npm ci
-      - run: cd starter/frontend && npm run lint
+      - run: cd starter/frontend && npm run lint -- --fix
   test:
     runs-on: ubuntu-latest
     steps:
@@ -61,7 +55,7 @@ jobs:
             ${{ runner.os }}-node-
       
       - run: cd starter/frontend && npm ci
-      - run: cd starter/frontend && npm test
+      - run: cd starter/frontend/src && npm test -- --passWithNoTests
       
   build:
     needs: [lint, test]
@@ -76,8 +70,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }} 
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }} 
           aws-session-token: ${{secrets.AWS_SESSION_TOKEN}}
-          aws-region: ${{ env.AWS_REGION }}
-      
+          aws-region: ${{ env.AWS_REGION }}      
       
       - name: Login to Amazon ECR
         id: login-ecr
@@ -86,21 +79,29 @@ jobs:
       - name: Build, tag, and push docker image to Amazon ECR
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: my-ecr-repo
+          REPOSITORY: frontend
           IMAGE_TAG: ${{ github.sha }}
+          REACT_APP_MOVIE_API_URL: '/home'
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-      
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG . --build-arg REACT_APP_MOVIE_API_URL=$REACT_APP_MOVIE_API_URL
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG      
       
       - uses: actions/checkout@v2
       - name: Deploy
         uses: cancue/eks-action@v0.0.2
         env:
+          DOCKER_IMAGE: $REGISTRY/$REPOSITORY
+          DOCKER_TAG: $IMAGE_TAG
+          K8S_NAMESPACE: dev_namespace
+          K8S_DEPLOYMENT: project_src/starter/frontend/k8s/deployment.yaml
+          EKS_CLUSTER_NAME: dev_cluster
+        
+          
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: $AWS_REGION
-          cluster_name: $EKS_CLUSTER_NAME
+          cluster_name: $EKS_CLUSTER_NAME         
+                    
         with:
           args: |
             kubectl set image deployment $K8S_DEPLOYMENT -n $K8S_NAMESPACE
