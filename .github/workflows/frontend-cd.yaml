@@ -83,7 +83,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
           REACT_APP_MOVIE_API_URL: '/home'
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG . --build-arg REACT_APP_MOVIE_API_URL=$REACT_APP_MOVIE_API_URL
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG starter/frontend --build-arg REACT_APP_MOVIE_API_URL=$REACT_APP_MOVIE_API_URL
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG      
       
       - uses: actions/checkout@v2
