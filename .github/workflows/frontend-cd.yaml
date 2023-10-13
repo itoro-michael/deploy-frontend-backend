@@ -84,6 +84,14 @@ jobs:
           REACT_APP_MOVIE_API_URL: '/home'
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG starter/frontend --build-arg REACT_APP_MOVIE_API_URL=$REACT_APP_MOVIE_API_URL
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG      
+          # docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG      
       
-      
+      - name: Create/update kubeconfig
+        env:
+          EKS_CLUSTER_NAME: frontend
+        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name $EKS_CLUSTER_NAME
+        
+      - name: Deploy to EKS
+        run:  |
+          kubectl apply -f starter/frontend/k8s/deployment.yaml
+          kubectl apply -f starter/frontend/k8s/service.yaml

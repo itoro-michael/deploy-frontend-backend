@@ -16,6 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: frontend
+          image: 827273211138.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
