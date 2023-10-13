@@ -5,6 +5,9 @@ on:
   pull_request:
     branches: [main]
     types: [closed]
+
+env:
+  AWS_REGION: us-east-1
     
 jobs:
   lint:
